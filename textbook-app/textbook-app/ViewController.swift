@@ -7,11 +7,18 @@
 //
 
 import UIKit
-import SwiftOCR
+//import SwiftOCR
 import SwiftyJSON
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    var chosenImage: UIImage! = nil
+    
+    @IBAction func send(_ sender: Any) {
+        print("fired")
+        let binaryImageData = base64EncodeImage(chosenImage)
+        createRequest(with: binaryImageData)
+    }
     
     @IBOutlet var book_name: UITextField!
     @IBOutlet var wanted_version: UITextField!
@@ -19,6 +26,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //    let imagePicker = UIImagePickerController()
     let session = URLSession.shared
     let ngrok = "http://0.0.0.0:8000"
+    var responseString = ""
     
     var googleAPIKey = "AIzaSyDURLZAzmPCb3czzN2ZwtmjogeiJPB1Wjs"
     var googleURL: URL {
@@ -35,13 +43,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var imageView: UIImageView!
     var imagePicker: UIImagePickerController!
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage;
+        chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage;
         
         imageView.image = chosenImage;
         let imageData: Data! = UIImageJPEGRepresentation(chosenImage, 0.1)
         
         
         let base64String = (imageData as NSData).base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0));
+        
+        
+//        let binaryImageData = base64EncodeImage(#imageLiteral(resourceName: "test_image.png"))
+//        createRequest(with: binaryImageData)
+//
+        
 //     do stuff with image
         dismiss(animated: true, completion: nil);
     }
@@ -58,43 +72,51 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func extractText(image: UIImage) {
         print("asdf")
 //        sendRequest()
-        let swiftOCRInstance = SwiftOCR()
-        
-        swiftOCRInstance.recognize(image) { recognizedString in
-            print("ASDF")
-            print(recognizedString)
-        }
+//        let swiftOCRInstance = SwiftOCR()
+//        
+//        swiftOCRInstance.recognize(image) { recognizedString in
+//            print("ASDF")
+//            print(recognizedString)
+//        }
     }
     
     func sendRequest(response: String) {
+        if (book_name.text != "" && wanted_version.text != "" && page_number.text != "") {
+            let url = URL(string: "\(ngrok)/compare")!
+            var request = URLRequest(url: url)
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.httpMethod = "POST"
+            //        let postString = "id=13&name=Jack"
+            let postString = "textbook=\(book_name.text!)&text=\(response)&version=\(wanted_version.text!)&pg=\(page_number.text!)"
+            
+            print(postString)
+            request.httpBody = postString.data(using: .utf8)
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                    print("error=\(error)")
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                self.responseString = String(data: data, encoding: .utf8)!
+                print("responseString = \(self.responseString)")
+            }
+            task.resume()
+            self.sendRequest(response: responseString)
+        }
+        else {
+            let alertController = UIAlertController(title: "Missing Field", message: "Please provide a valid entry for each of the provided fields.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
         print(book_name.text)
         print(wanted_version.text)
         print(page_number.text)
-        
-        let url = URL(string: "\(ngrok)/compare")!
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-//        let postString = "id=13&name=Jack"
-        let postString = "input=\(book_name.text!)&text=\(response)&ver=\(wanted_version.text!)&page_number=\(page_number.text!)"
-        
-        print(postString)
-        request.httpBody = postString.data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(error)")
-                return
-            }
-
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
-            }
-
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString)")
-        }
-        task.resume()
     }
     
     override func viewDidLoad() {
@@ -103,8 +125,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
 //        var test_image = #imageLiteral(resourceName: "test_image.png")
 //        extractText(image: test_image)
-        let binaryImageData = base64EncodeImage(#imageLiteral(resourceName: "test_image.png"))
-        createRequest(with: binaryImageData)
     }
 
     override func didReceiveMemoryWarning() {
@@ -122,10 +142,11 @@ extension ViewController {
     
     func analyzeResults(_ dataToParse: Data) {
         
+        print("fired part 4")
         // Update UI on the main thread
         DispatchQueue.main.async(execute: {
             
-            
+            print("fired part 5")
             // Use SwiftyJSON to parse results
             let json = try! JSON(data: dataToParse)
             let errorObj: JSON = json["error"]
@@ -139,11 +160,12 @@ extension ViewController {
             // Check for errors
             if (errorObj.dictionaryValue != [:]) {
 //                self.labelResults.text = "Error code \(errorObj["code"]): \(errorObj["message"])"
+                print("Error code \(errorObj["code"]): \(errorObj["message"])")
             } else {
                 // Parse the response
                 let responses: JSON = json["responses"][0]
                 print(responses["fullTextAnnotation"]["text"])
-                self.sendRequest(response: responses["fullTextAnnotation"]["text"].string!)
+                self.responseString = responses["fullTextAnnotation"]["text"].string!
                 
                 // Get face annotations
 //                let faceAnnotations: JSON = responses["faceAnnotations"]
@@ -226,14 +248,14 @@ extension ViewController {
 //        dismiss(animated: true, completion: nil)
 //    }
 //
-//    func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
-//        UIGraphicsBeginImageContext(imageSize)
-//        image.draw(in: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        let resizedImage = UIImagePNGRepresentation(newImage!)
-//        UIGraphicsEndImageContext()
-//        return resizedImage!
-//    }
+    func resizeImage(_ imageSize: CGSize, image: UIImage) -> Data {
+        UIGraphicsBeginImageContext(imageSize)
+        image.draw(in: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        let resizedImage = UIImagePNGRepresentation(newImage!)
+        UIGraphicsEndImageContext()
+        return resizedImage!
+    }
 }
 
 
@@ -247,7 +269,7 @@ extension ViewController {
         if (imagedata?.count > 2097152) {
             let oldSize: CGSize = image.size
             let newSize: CGSize = CGSize(width: 800, height: oldSize.height / oldSize.width * 800)
-//            imagedata = resizeImage(newSize, image: image)
+            imagedata = resizeImage(newSize, image: image)
         }
         
         return imagedata!.base64EncodedString(options: .endLineWithCarriageReturn)
@@ -255,6 +277,8 @@ extension ViewController {
     
     func createRequest(with imageBase64: String) {
         // Create our request URL
+        
+        print("fired part 2")
         
         var request = URLRequest(url: googleURL)
         request.httpMethod = "POST"
@@ -296,8 +320,13 @@ extension ViewController {
     func runRequestOnBackgroundThread(_ request: URLRequest) {
         // run the request
         
+        print("fired part 3")
+        
         let task: URLSessionDataTask = session.dataTask(with: request) { (data, response, error) in
+            print(data)
+            print(response)
             guard let data = data, error == nil else {
+                print("ASDFASDFASDFSDAFAD")
                 print(error?.localizedDescription ?? "")
                 return
             }

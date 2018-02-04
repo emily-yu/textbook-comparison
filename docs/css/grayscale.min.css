@@ -4,7 +4,8 @@ body,html {
 }
 
 .navbar-custom,body {
-    background-color: #050424
+    /*background-color: #c4f5f5*/
+    background-color: #6fd7d8;
 }
 
 .intro,body,html {
@@ -97,7 +98,8 @@ a:focus,a:hover {
 }
 
 .navbar-custom .nav li a:hover {
-    color: rgba(255,255,255,.8)
+    /*color: rgba(255,255,255,.8)*/
+    color: #c4f5f5;
 }
 
 .navbar-custom .nav li.active {
@@ -136,7 +138,8 @@ a:focus,a:hover {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../img/blue.jpg) bottom center no-repeat #000;
+    /*background: url(../img/blue.jpg) bottom center no-repeat #000;*/
+    background-image: linear-gradient(rgba(111,215,216, 0.8), rgba(111,215,216, 0.8)),url('../img/blue.jpg') !important;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -242,7 +245,7 @@ a:focus,a:hover {
     width: 100%;
     padding: 50px 0;
     color: #fff;
-    background: url(../img/blue2.jpg) center center no-repeat #000;
+    background: url(../img/blue2.jpg) center center no-repeat rgba(111,215,216, 0.8);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -285,10 +288,10 @@ a:focus,a:hover {
 }
 
 .btn-default:focus,.btn-default:hover {
-    border: 1px solid #174184;
+    border: 1px solid #c4f5f5;
     outline: 0;
     color: #fff;
-    background-color: #000000
+    background-color: #c4f5f5
 }
 
 ul.banner-social-buttons {

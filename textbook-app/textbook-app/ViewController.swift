@@ -12,11 +12,13 @@ import SwiftyJSON
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    @IBOutlet var input_version: UITextField!
+    
+    @IBOutlet var book_name: UITextField!
     @IBOutlet var wanted_version: UITextField!
     @IBOutlet var page_number: UITextField!
 //    let imagePicker = UIImagePickerController()
     let session = URLSession.shared
+    let ngrok = "http://0.0.0.0:8000"
     
     var googleAPIKey = "AIzaSyDURLZAzmPCb3czzN2ZwtmjogeiJPB1Wjs"
     var googleURL: URL {
@@ -55,7 +57,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func extractText(image: UIImage) {
         print("asdf")
-        sendRequest()
+//        sendRequest()
         let swiftOCRInstance = SwiftOCR()
         
         swiftOCRInstance.recognize(image) { recognizedString in
@@ -64,10 +66,35 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    func sendRequest() {
-        print(input_version.text)
+    func sendRequest(response: String) {
+        print(book_name.text)
         print(wanted_version.text)
         print(page_number.text)
+        
+        let url = URL(string: "\(ngrok)/compare")!
+        var request = URLRequest(url: url)
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+//        let postString = "id=13&name=Jack"
+        let postString = "input=\(book_name.text!)&text=\(response)&ver=\(wanted_version.text!)&page_number=\(page_number.text!)"
+        
+        print(postString)
+        request.httpBody = postString.data(using: .utf8)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
+
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(responseString)")
+        }
+        task.resume()
     }
     
     override func viewDidLoad() {
@@ -116,6 +143,7 @@ extension ViewController {
                 // Parse the response
                 let responses: JSON = json["responses"][0]
                 print(responses["fullTextAnnotation"]["text"])
+                self.sendRequest(response: responses["fullTextAnnotation"]["text"].string!)
                 
                 // Get face annotations
 //                let faceAnnotations: JSON = responses["faceAnnotations"]

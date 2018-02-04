@@ -58,4 +58,4 @@ def do_uploadc():
     print (score)
     return same
 
-run(host="0.0.0.0", port=8000)
+run(host="0.0.0.0", port=5000)

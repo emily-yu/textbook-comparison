@@ -25,7 +25,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var page_number: UITextField!
 //    let imagePicker = UIImagePickerController()
     let session = URLSession.shared
-    let ngrok = "http://0.0.0.0:8000"
+    let ngrok = "https://3ac67831.ngrok.io"
     var responseString = ""
     
     var googleAPIKey = "AIzaSyDURLZAzmPCb3czzN2ZwtmjogeiJPB1Wjs"

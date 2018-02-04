@@ -106,7 +106,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 print("responseString = \(self.responseString)")
             }
             task.resume()
-            self.sendRequest(response: responseString)
+//            self.sendRequest(response: responseString)
         }
         else {
             let alertController = UIAlertController(title: "Missing Field", message: "Please provide a valid entry for each of the provided fields.", preferredStyle: .alert)
@@ -166,6 +166,7 @@ extension ViewController {
                 let responses: JSON = json["responses"][0]
                 print(responses["fullTextAnnotation"]["text"])
                 self.responseString = responses["fullTextAnnotation"]["text"].string!
+                self.sendRequest(response: self.responseString)
                 
                 // Get face annotations
 //                let faceAnnotations: JSON = responses["faceAnnotations"]

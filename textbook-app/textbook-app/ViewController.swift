@@ -20,6 +20,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         createRequest(with: binaryImageData)
     }
     
+    @IBOutlet var textResponse: UITextView!
     @IBOutlet var book_name: UITextField!
     @IBOutlet var wanted_version: UITextField!
     @IBOutlet var page_number: UITextField!
@@ -104,6 +105,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 
                 self.responseString = String(data: data, encoding: .utf8)!
                 print("responseString = \(self.responseString)")
+                self.textResponse.text = self.responseString
             }
             task.resume()
 //            self.sendRequest(response: responseString)

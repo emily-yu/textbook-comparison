@@ -184,6 +184,7 @@
                         <outlet property="book_name" destination="bQn-Zg-9ca" id="hk2-ud-rji"/>
                         <outlet property="imageView" destination="nMf-8m-E6O" id="uLJ-mn-SRW"/>
                         <outlet property="page_number" destination="BCP-XH-9mo" id="Yrj-gZ-Cde"/>
+                        <outlet property="textResponse" destination="dqM-he-Xlf" id="SWi-V1-TAq"/>
                         <outlet property="wanted_version" destination="AgB-Dm-tWv" id="TQk-3J-oIk"/>
                     </connections>
                 </viewController>

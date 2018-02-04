@@ -115,6 +115,11 @@
     </header>
 
     <script>
+      var name = "{{name}}"
+      var school = "{{school}}"
+      console.log(name)
+      console.log(school)
+
       function httpGet(theUrl,key)
       {
           console.log(theUrl)
@@ -127,7 +132,6 @@
       }
 
       var key = "jzFVdblnnQQZViX9STcbe5niQqAhpURl"
-      var name = "peter peter"
       var url = "https://cobalt.qas.im/api/1.0/textbooks/filter?q=author:\"" + name.split(' ')[1] + "\""
       var response = httpGet(url, key)
       console.log(responseguilt)

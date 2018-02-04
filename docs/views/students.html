@@ -78,7 +78,6 @@
 
         <h3 style="color:black; text-align: center; padding-bottom: 0px;">Meet Us</h3>
 
-         <!--    </div> -->
 
          <div>
          </div>
@@ -89,29 +88,6 @@
 
     </div>
 
-    <script>
-// http://41e888fa.ngrok.io/login
-    var client = new HttpClient();
-client.get('http://some/thing?with=arguments', function(response) {
-    // do something with response
-});
-
-
-    var HttpClient = function() {
-    this.get = function(aUrl, aCallback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() {
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                aCallback(anHttpRequest.responseText);
-        }
-
-        anHttpRequest.open( "GET", aUrl, true );
-        anHttpRequest.send( null );
-    }
-}
-    </script>
-    <!--End Pop Up-->
-
 
 
     <!-- Intro Header -->
@@ -120,22 +96,20 @@ client.get('http://some/thing?with=arguments', function(response) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
-                        <h2 style="position:fixed; left:550px;top:100px;font-size: 50px !important; font-family: 'Montserrat', sans-serif;">Hello</h2>
-                        <!-- <p class="" style = "font-family: 'Raleway'">Your Name -->
-                          <form>
-                            <label style="font-family: 'Raleway'; top:300px; position:fixed; left:450px;"> Your Name</label>
-                            <input style="font-family: 'Raleway'; top:300px;left:550px; position:fixed;background-color:transparent; width:20%; border:1px solid; border-color:#eee; color:#fff" type="text"></input>
-                            <Br>
-                            <label style="font-family: 'Raleway'; top:330px; position:fixed; left:450px; margin-top:10px;"> Your School</label>
-                            <input style="font-family: 'Raleway'; top:330px; position:fixed; left:550px; margin-top:10px; background-color:transparent; width:20%; border:1px solid; border-color:#eee; color:#fff" type="text"></input>
-                          </form>
-                          <button class="" style = "width:30%;position:fixed; top:450px;left:450px; margin: 0 auto; background-color:transparent; color:#fff; border-color:#eee; font-size:30px; border-width:2px; font-family: 'Raleway'"><a style="color:#fff" href="profile.html"> Next </a></button>
+                        <h2 style="position:fixed; left:220px;top:100px;font-size: 50px !important; font-family: 'Montserrat', sans-serif;">Download the app please</h2>
+                        <p class="" style = "font-family: 'Raleway'">
+                          <label style="font-family: 'Raleway'; top:300px; position:fixed; left:450px;"> Your Name</label>
+                          <input name="name"style="font-family: 'Raleway'; top:300px;left:550px; position:fixed;background-color:transparent; width:20%; border:1px solid; border-color:#eee; color:#fff" type="text"></input>
+                          <Br>
+                          <label style="font-family: 'Raleway'; top:330px; position:fixed; left:450px; margin-top:10px;"> Your School</label>
+                          <input name="school" style="font-family: 'Raleway'; top:330px; position:fixed; left:550px; margin-top:10px; background-color:transparent; width:20%; border:1px solid; border-color:#eee; color:#fff" type="text"></input>
+
+                          <button class="" style = "width:30%;position:fixed; top:450px;left:450px; margin: 0 auto; background-color:transparent; color:#fff; border-color:#eee; font-size:30px; border-width:2px; font-family: 'Raleway'"> <a href="/" style="color:#fff"> Done </a></button>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-
 
 
     <!-- jQuery -->

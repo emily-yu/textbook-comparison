@@ -26,7 +26,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var page_number: UITextField!
 //    let imagePicker = UIImagePickerController()
     let session = URLSession.shared
-    let ngrok = "https://3ac67831.ngrok.io"
+    let ngrok = "https://38d9fb6f.ngrok.io"
     var responseString = ""
     
     var googleAPIKey = "AIzaSyDURLZAzmPCb3czzN2ZwtmjogeiJPB1Wjs"
@@ -105,7 +105,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 
                 self.responseString = String(data: data, encoding: .utf8)!
                 print("responseString = \(self.responseString)")
-                self.textResponse.text = self.responseString
+//                self.textResponse.text = self.responseString
+//                dispatch_sync(dispatch_get_main_queue(), ^{
+//                    /* Do UI work here */
+//                    self.textResponse.text = self.responseString
+                    DispatchQueue.main.async {
+                        self.textResponse.text = self.responseString
+                    }
             }
             task.resume()
 //            self.sendRequest(response: responseString)
@@ -124,7 +130,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.hideKeyboardWhenTappedAround();
 //        var test_image = #imageLiteral(resourceName: "test_image.png")
 //        extractText(image: test_image)
     }
@@ -363,6 +369,18 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
         return l > r
     default:
         return rhs < lhs
+    }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard));
+        tap.cancelsTouchesInView = false;
+        view.addGestureRecognizer(tap);
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true);
     }
 }
 

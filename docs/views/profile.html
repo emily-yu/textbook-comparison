@@ -171,8 +171,7 @@
       console.log(name)
       console.log(school)
 
-      function httpGet(theUrl,key)
-      {
+      function httpGet(theUrl,key) {
           console.log(theUrl)
           console.log(key)
           var xmlHttp = new XMLHttpRequest();
@@ -182,10 +181,14 @@
           return xmlHttp.responseText;
       }
 
-      var key = "jzFVdblnnQQZViX9STcbe5niQqAhpURl"
-      var url = "https://cobalt.qas.im/api/1.0/textbooks/filter?q=author:\"" + name.split(' ')[1] + "\""
-      var response = httpGet(url, key)
-      console.log(responseguilt)
+      const key = "jzFVdblnnQQZViX9STcbe5niQqAhpURl"
+      const url = 'https://cors-anywhere.herokuapp.com/https://cobalt.qas.im/api/1.0/textbooks/filter?q=author:"' + name.split(' ')[1] + '"'
+      const response = httpGet(url, key)
+
+      for (elem of JSON.parse(response)) {
+        console.log(elem)
+      }
+
     </script>
 
 

@@ -97,75 +97,47 @@
         <div class="intro-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h2 style="width: 100%; text-align: center;font-size: 50px !important; font-family: 'Montserrat', sans-serif;">Results</h2>
-                        <!-- <p class="" style = "font-family: 'Raleway'">Your Name -->
-<!--                           <form>
-                            <label style="font-family: 'Raleway'; top:300px; position:fixed; left:450px;"> Your Name</label>
-                            <input style="font-family: 'Raleway'; top:300px;left:550px; position:fixed;background-color:transparent; width:20%; border:1px solid; border-color:#eee; color:#fff" type="text"></input>
-                            <Br>
-                            <label style="font-family: 'Raleway'; top:330px; position:fixed; left:450px; margin-top:10px;"> Your School</label>
-                            <input style="font-family: 'Raleway'; top:330px; position:fixed; left:550px; margin-top:10px; background-color:transparent; width:20%; border:1px solid; border-color:#eee; color:#fff" type="text"></input>
-                          </form>
-                          <button class="" style = "width:30%;position:fixed; top:450px;left:450px; margin: 0 auto; background-color:transparent; color:#fff; border-color:#eee; font-size:30px; border-width:2px; font-family: 'Raleway'"><a style="color:#fff" href="profile.html"> Next </a></button> -->
-                          <style>
-                            table {
-                              font-family: 'Raleway', sans-serif;
-                            }
-                            td,th {
-                              text-align: center;
-                              font-size: 26px;
-                              border: 1px solid white;
-                            }
-                            td {
-                              background: #6bbcbd;
-                                  font-size: 23px;
-                                  padding: 5px;
-                            }
-                            th {
-                              text-transform: uppercase;
-                              background: #e4f8f7;
-                              color: #6bbcbd;
-                              padding: 12px;
-                            }
-                          </style>
-                          <table style="width:100%">
-                            <tr>
-                              <th>Author</th>
-                              <th>Textbook Name</th> 
-                            </tr>
-                            <tr>
-                              <td>David Halliday, Jearl Walker, and Robert Resnick</td>
-                              <td>Fundamentals of Physics</td> 
-                            </tr>
-                            <tr>
-                              <td>Lev Landau</td>
-                              <td>Course of Theoretical Physics</td> 
-                            </tr>
-                            <tr>
-                              <td>E. V. Gordon</td>
-                              <td>An Introduction to Old Norse</td> 
-                            </tr>
-                            <tr>
-                              <td>Edgar Allan Poe</td>
-                              <td>The Conchologist's First Book</td> 
-                            </tr>
-                            <tr>
-                              <td>Christian Queinnec</td>
-                              <td>Lisp in Small Pieces</td> 
-                            </tr>
-                            <tr>
-                              <td>Daniel P. Friedman and Mitchell Wand</td>
-                              <td>Essentials of Programming Languages</td> 
-                            </tr>
-                          </table>
-                    </div>
+                    <h2 style="padding-top: 20%; width: 100%; text-align: center;font-size: 50px !important; font-family: 'Montserrat', sans-serif;">Results</h2>
+                      <style>
+                        table {
+                          font-family: 'Raleway', sans-serif;
+                          margin-bottom: 20%;
+                        }
+                        td,th {
+                          text-align: center;
+                          font-size: 26px;
+                          border: 1px solid white;
+                        }
+                        td {
+                          background: #6bbcbd;
+                              font-size: 23px;
+                              padding: 5px;
+                        }
+                        th {
+                          text-transform: uppercase;
+                          background: #e4f8f7;
+                          color: #6bbcbd;
+                          padding: 12px;
+                        }
+                      </style>
+                      <table id = "results-table" style = "width: 100%">
+                        <tr>
+                          <th>ID</th>
+                          <th>ISBN</th>
+                          <th>Title</th>
+                          <th>Edition</th>
+                          <th>Author</th>
+                          <th>Price</th>
+                          <th>University Purchase</th>
+                        </tr>
+                      </table>
                 </div>
             </div>
         </div>
     </header>
 
     <script>
+
       var name = "{{name}}"
       var school = "{{school}}"
       console.log(name)
@@ -185,8 +157,19 @@
       const url = 'https://cors-anywhere.herokuapp.com/https://cobalt.qas.im/api/1.0/textbooks/filter?q=author:"' + name.split(' ')[1] + '"'
       const response = httpGet(url, key)
 
+      let content = ""
       for (elem of JSON.parse(response)) {
         console.log(elem)
+        content += "<tr>";
+        content += "<td>" + elem.id + "</td>" ;
+        content += "<td>" + elem.isbn + "</td>" ;
+        content += "<td>" + elem.title + "</td>" ;
+        content += "<td>" + elem.edition + "</td>" ;
+        content += "<td>" + elem.author + "</td>" ;
+        content += "<td>" + elem.price + "</td>" ;
+        content += "<td><a href = '" + elem.url + "'>Link</a></td>" ;
+        content += "</tr>";
+        document.getElementById("results-table").innerHTML += content;
       }
 
     </script>

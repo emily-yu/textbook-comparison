@@ -3,9 +3,9 @@
 iOS application that compares text between two versions of textbooks to show what differences exist between each. Professors can buy the newest version of the book and "sell" the different pages between versions so that both the publisher and the professor both gain money, while the student is able to learn off a cheaper, older textbook version and simply buy pages that they lack.
 
 ### Table of Contents
-- [Installation](#Installation)
-- [Requirements](#Requirements)
-- [Usage](#Usage)
+- [Installation](#installation)
+- [Requirements](#requirements)
+- [Usage](#usage)
 
 ### Installation
     git clone https://github.com/emily-yu/textbook-comparison.git

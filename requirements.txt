@@ -46,7 +46,7 @@ et-xmlfile==1.0.1
 fastcache==1.0.2
 flake8==3.5.0
 Flask==0.12
-Flask-Cors==3.0.2
+Flask-Cors==3.0.9
 gcloud==0.17.0
 gevent==1.2.1
 google==1.9.3

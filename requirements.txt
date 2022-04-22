@@ -216,7 +216,7 @@ pyobjc-framework-SystemConfiguration==4.1
 pyobjc-framework-WebKit==4.1
 pyOpenSSL==16.2.0
 pyparsing==2.1.4
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 pyquery==1.2.17
 Pyrebase==3.0.27
 PySocks==1.6.7

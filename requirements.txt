@@ -88,7 +88,7 @@ mistune==0.7.3
 mpmath==0.19
 multipledispatch==0.4.9
 Naked==0.1.31
-nbconvert==4.2.0
+nbconvert==6.3.0
 nbformat==4.2.0
 networkx==1.11
 nltk==3.2.2
